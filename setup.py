@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metabeaver',
-    version='0.1.6', # Major, minor, patch
+    version='0.1.7', # Major, minor, patch
     packages=find_packages(exclude=['Testing', '*.xlsx', '*.xls']),
     install_requires=[
         'numpy',
@@ -19,16 +19,15 @@ setup(
 
 ##### ERRATA #####
 
-#QHFG25#DQLPMeEy
-
+### Create the wheel and the tar in dist folder
 #python setup.py sdist bdist_wheel
 
-
-#pip show twine
-#dir /s twine.exe
-
-
+### Upload to PyPi, using twine
 #twine upload dist/*
 #twine upload *
+
+### Where does Twine live?
+#pip show twine
+#dir /s twine.exe
 
 ##### ERRATA #####

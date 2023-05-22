@@ -1,16 +1,13 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
+# Beavering on...
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print("""
+    Roses are red, violets are blue,
+    Beaver teeth are orange, and they gnaw through wood too.
+    They build their dams, in rivers they weave,
+    Creating a home, where the water is sieved.
+    
+    By the water's edge, under the moon's gentle gleam,
+    Their busy paws work, crafting nature's own scheme.
+    So let us rejoice, in this marvelous creature,
+    As we celebrate the beaver and all unique features.
+    """)
