@@ -1,0 +1,5 @@
+# Code scan for any function that's repeatedly called and returns a value from frozen variables
+# Suggest replace.
+# Needs to scan code for what variables appear to be frozen or constant
+# Needs to look for where repeatedly called.
+# What's the existing functionality for this? Check before programming, try to extend if not exists.

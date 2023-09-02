@@ -19,6 +19,14 @@ setup(
 
 ##### ERRATA #####
 
+"""
+   ______
+  //    \\__
+(||      `--`)
+  \\_/||\_/`
+
+"""
+
 ### Create the wheel and the tar in dist folder
 #python setup.py sdist bdist_wheel
 

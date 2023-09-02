@@ -1,0 +1,4 @@
+When saving a filetype in any format, just the object and the desired filename should be enough.
+    .md? .png? Pickling a file?
+        # Function examples here
+
