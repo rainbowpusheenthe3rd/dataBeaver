@@ -93,7 +93,7 @@ def create_schema(items: List, field_names: List[str]) -> List[bigquery.SchemaFi
 
 
 # Gets the most up to date data for a table where the target column has an entry
-def get_valid_crawled_pages(client, dataset_name, table_name, target_column, date_column, n_days=30, end_date=None):
+def get_valid_pages(client, dataset_name, table_name, target_column, date_column, n_days=30, end_date=None):
 
         # Get current time in UTC
         now_utc = dt.datetime.utcnow()

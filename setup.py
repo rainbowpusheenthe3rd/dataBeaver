@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metabeaver',
-    version='0.1.7', # Major, minor, patch
+    version='0.2.0', # Major, minor, patch
     packages=find_packages(exclude=['Testing', '*.xlsx', '*.xls']),
     install_requires=[
         'numpy',
