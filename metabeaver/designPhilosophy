@@ -1,3 +1,8 @@
+Python standard library and commonly used data manipulationtoolkit only - numpy, pandas, etc
+    Why? Well, we want to ensure compatibility across multiple project types...
+        ... The aim is to make life simpler, not more difficult!
+
+
 When saving a filetype in any format, just the object and the desired filename should be enough.
     .md? .png? Pickling a file?
         # Function examples here
