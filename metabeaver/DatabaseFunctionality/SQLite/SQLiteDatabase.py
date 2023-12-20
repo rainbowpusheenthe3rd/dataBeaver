@@ -1,3 +1,43 @@
+"""
+
+SQLite database class with common, basic functionality for table creation, deletion, read and writes
+
+Contains the following core functionality:
+
+__init__(self, db, dbpath):
+    Constructor method for the Database class, initializes the database name (db) and path (dbpath).
+
+getConnection(self):
+    Gets a new connection and cursor, making both objects available to the rest of the class.
+
+list_tables(self, booleanNamesOnly=True):
+    Lists the tables in the SQLite database. Returns a list of table names by default, but can return a list of tuples with table names and types if booleanNamesOnly is set to False.
+
+write(self, table, data):
+    Writes data to the specified table in the database.
+
+list_columns(self, table, VERBOSE=False, booleanColumnsOnly=True):
+    Lists the columns in a table. Returns a list of column names by default, but can return a list of tuples with column names and types if booleanColumnsOnly is set to False.
+
+read(self, table, query='SELECT * FROM {}'):
+    Reads all data from the specified table using the provided query or a default query.
+
+add_column(self, table, columnname):
+    Adds a column to the specified table.
+
+add_table(self, tablename, columns):
+    Adds a table with an alphanumeric name to the database if it doesn't already exist.
+
+validate_table_exists(self, table, min_columns=None):
+    Validates that the specified table exists in the database.
+    Optionally, checks if the tables has a minimum number of columns.
+
+replace_rows(self, table, start_index, end_index, new_data):
+    Takes a target table, start and end indices, and replaces data at these index positions with a pandas dataframe.
+
+"""
+
+
 ### Imports ###
 
 ## Class-specific critical imports necessary for instantiation of the class
@@ -314,6 +354,85 @@ class Database:
             # Throw a ValueError is the target table has less columns that user specified/expected.
             if len(self.list_columns(table)) < min_columns:
                 raise ValueError(f"The table, {table}, does not have the minimum number of columns.")
+
+    # Replaces rows in a table in the db at a given index range with new data from a Pandas DataFrame
+    def replace_rows(self, table, start_index, end_index, new_data):
+        """
+        Replace rows X to Y in the specified database table with data from a Pandas DataFrame.
+
+        Parameters:
+        -----------
+        table: str
+            The table in the database to replace rows.
+        start_index: int
+            The starting index of rows to be replaced.
+        end_index: int
+            The ending index of rows to be replaced.
+        new_data: dataframe
+            The new data to replace the specified rows.
+
+        Facilitates the replacement of a range of rows (from X to Y) in table.
+        Assumes data from a Pandas DataFrame.
+        Ensures that the DataFrame structure aligns with the target table's structure.
+        Handles the deletion and insertion operations within a transaction to maintain data integrity.
+
+        Parameters:
+
+            table (str): The name of the target database table.
+            start_index (int): The starting index of the rows to be replaced.
+            end_index (int): The ending index of the rows to be replaced.
+            new_data (DataFrame): The Pandas DataFrame containing the new data for replacement.
+
+        # Example usage:
+        # Replace rows 2 to 4 in the "example_table" with data from a new DataFrame
+        db_instance = Database(db='example.db', dbpath='path/to/db')
+        new_data = pd.DataFrame({'column1': [11, 12, 13], 'column2': ['A', 'B', 'C']})
+        db_instance.replace_rows(table='example_table', start_index=1, end_index=3, new_data=new_data)
+        """
+
+        # Validate that the table exists
+        self.validate_table_exists(table)
+
+        # Validate that the DataFrame has the same columns as the table
+        existing_columns = set(self.list_columns(table, booleanColumnsOnly=False))
+        new_columns = set(new_data.columns)
+
+        if existing_columns != new_columns:
+            raise ValueError("Columns in the new data do not match the columns in the table.")
+
+        # Get a connection to the SQLite database
+        self.getConnection()
+
+        # Check if the end_index is within the bounds of the existing data
+        existing_data = self.read(table)
+        max_index = len(existing_data) - 1
+
+        if end_index > max_index:
+            raise ValueError(f"End index ({end_index}) exceeds the maximum index ({max_index}) in the table.")
+
+        # Update the specified rows in the table
+        try:
+            self.c.execute("DELETE FROM {} WHERE ROWID BETWEEN ? AND ?".format(table),
+                           (start_index + 1, end_index + 1))
+            self.conn.commit()
+
+            new_values = new_data.values.tolist()
+            query = "INSERT INTO {} VALUES ({})".format(table,
+                                                        ",".join(["?" for _ in range(len(existing_columns))]))
+
+            self.c.executemany(query, new_values)
+            self.conn.commit()
+
+        # Rollback any changes if there was an error, and warn the user at console/cmd level
+        except sqlite3.Error as e:
+            # Handle the error, e.g., rollback changes
+            print("Error:", str(e))
+            self.conn.rollback()
+
+        # Finally, close the connection to the db, regardless of whether data was committed to the db successfully
+        finally:
+            # Close the connection
+            self.conn.close()
 
 
 ### End of Function Definition ###
