@@ -5,39 +5,70 @@ class BinarySearchTree:
         self.root = None
 
     def insert(self, value):
+
+        # Create a new Node which will hold the value passed to the insert method.
         new_node = Node(value)
 
+        # Make the new node, with our value, the root, if and only there is no existing root.
         if self.root is None:
             self.root = new_node
+        # If the root exists, do not insert yet, but assign the root node to current_node
         else:
             current_node = self.root
 
+            # While the value is less than the value of the current node, traverse left or create new node left.
             while True:
+                # Go left
                 if value < current_node.value:
+                    # Create a node to store our value if the value is less than current_node.value and no left child.
                     if current_node.left is None:
                         current_node.left = new_node
                         break
+                    # Traverse left if value is less than current_node.value and left child of current_node exists.
                     else:
                         current_node = current_node.left
+                # Go right
                 else:
+                    # If value is greater than or equal to the current_node.value and no right child, insert right.
                     if current_node.right is None:
                         current_node.right = new_node
                         break
+                    # Traverse right if
                     else:
                         current_node = current_node.right
 
-    def traverse(self):
+    # Traverse the tree in ascending order. Assumes the tree is a valid BST.
+    def inorder(self):
+
+        # Array to hold traversed elements after recursing through left most tree(s) as priority
         sorted_array = []
 
+        # Traverse the tree in ascending order
         def in_order(node):
             if node is not None:
                 in_order(node.left)
                 sorted_array.append(node.value)
                 in_order(node.right)
 
+        # Start at the root node.
         in_order(self.root)
 
         return sorted_array
+
+    def reverseInOrder(self):
+
+        def reverseOrder(node):
+
+            sorted = []
+
+            if node is not None:
+                reverseOrder(node.right)
+                sorted.append(node.value)
+                reverseOrder(node.left)
+
+            reverseOrder(self.root)
+
+        return sorted
 
     def median(self):
         sorted_array = self.traverse()

@@ -595,22 +595,3 @@ For device-local storage with low writer concurrency and less than a terabyte of
 
 
 ### End of Errata - GNU Terry Pratchett ###
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

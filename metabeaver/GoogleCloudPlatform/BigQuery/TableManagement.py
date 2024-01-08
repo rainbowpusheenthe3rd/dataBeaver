@@ -92,7 +92,7 @@ def create_schema(items: List, field_names: List[str]) -> List[bigquery.SchemaFi
     return schema
 
 
-# Gets the most up to date data for a table where the target column has an entry
+# Gets the most up to date data for a table where the target column has an entries within the last n_days
 def get_valid_pages(client, dataset_name, table_name, target_column, date_column, n_days=30, end_date=None):
 
         # Get current time in UTC

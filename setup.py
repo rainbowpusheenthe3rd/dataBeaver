@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metabeaver',
-    version='0.2.0', # Major, minor, patch
+    version='0.3.0', # Major, minor, patch
     packages=find_packages(exclude=['Testing', '*.xlsx', '*.xls']),
     install_requires=[
         'numpy',
@@ -29,9 +29,12 @@ setup(
 
 ### Create the wheel and the tar in dist folder
 #python setup.py sdist bdist_wheel
+# OR
+# python setup.py sdist
 
 ### Upload to PyPi, using twine
 #twine upload dist/*
+# OR
 #twine upload *
 
 ### Where does Twine live?
