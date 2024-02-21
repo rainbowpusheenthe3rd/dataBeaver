@@ -28,6 +28,7 @@ def removeDuplicates(nums):
 
     # Compare pairs and start removing them when the *second* duplicate is found.
     for i in range(1, len(nums)):
+
         # Check whether elements are identical and then reference count of duplicates
         if nums[i] == nums[i - 1] and i != '_':
             duplicate_count += 1

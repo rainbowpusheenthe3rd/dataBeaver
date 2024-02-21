@@ -67,18 +67,24 @@ def twos_complement(num):
     if num < 0:
         # Calculate the absolute value of num
         num = abs(num)
+
         # Convert num to binary and remove the '0b' prefix
         binary_num = bin(num)[2:]
+
         # Ensure the binary representation has enough bits
         binary_num = binary_num.zfill(maxBin)  # Use minimal bit representation
         print(binary_num)
+
         # Invert (flip) all the bits
         inverted_num = reverseBinary(binary_num)
         print(inverted_num)
+
         # Add 1 to the inverted binary representation
         result = inverted_num[-1] = 1
+
         #result = bin(int(inverted_num, len(inverted_num)) + 1)
         print(result)
+
         return result  # Return the binary result
 
 
