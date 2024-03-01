@@ -26,7 +26,7 @@ if "red" in coloursOfHarry: # Check for "red"
 elif "blue" in coloursOfHarry: # Check for "blue"
     print("You won't see this line but he is feeling quite blue!")
 else: # Does not print because at least one of the above conditions, find red, was true.
-    print("Harry's adventure's were but a dream: Harry's at home, snoring, and rather clean")
+    print("Harry's adventures were but a dream: Harry's at home, snoring, and rather clean")
 
 # Scenario 2: Using if this OR if this OR if-not-any logic: TWO if statements and ONE else
 # The following code will print red, because it will find red, then only check for blue (else-if) if red was not found.
@@ -47,26 +47,3 @@ elif "blue" in coloursOfHarry: # Check for "blue"
     print("He glows in the night, a vibrant fellow...") # Harry is very fashionable.
 else: # Will print because neither of the above conditions evaluated
     print("Harry looks like a duck and is not feeling mellow.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
