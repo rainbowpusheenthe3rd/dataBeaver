@@ -19,7 +19,7 @@ def getYYYYMMDDWithDashes():
     # Get a datetime object containing current date and time
     now = dt.now()
 
-    # Reformat the datetime to a string in the format like dd/mm/YY H:M:S
+    # Reformat the datetime to a string in the format like dd/mm/YY
     dt_string = now.strftime("%YYYY%MM%DD")
 
     return dt_string
