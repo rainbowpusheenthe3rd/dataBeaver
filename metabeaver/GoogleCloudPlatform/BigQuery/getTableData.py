@@ -2,6 +2,7 @@ import datetime as dt
 import pandas as pd
 
 
+
 # Fetches the first n rows from a bigquery table. Must receive a valid instantiated client
 def get_first_n_rows(client, project_id, dataset_id, table_id, n):
     """
@@ -25,8 +26,12 @@ def get_first_n_rows(client, project_id, dataset_id, table_id, n):
     schema = table.schema
     schema_fields = [field.name for field in schema]
 
-    # Construct the SQL query to get the first n rows
-    query = f"SELECT * FROM `{table_ref}` LIMIT {n}"
+    # Construct the SQL query to get the first n rows.
+    if n != float('inf'):
+        query = f"SELECT * FROM `{table_ref}` LIMIT {n}"
+    # If the limit value would have been infinity, return all records.
+    else:
+        query = f"SELECT * FROM `{table_ref}`"
 
     # Execute the query
     query_job = client.query(query)
