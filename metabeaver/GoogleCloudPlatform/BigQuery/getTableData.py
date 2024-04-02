@@ -20,6 +20,11 @@ def get_first_n_rows(client, project_id, dataset_id, table_id, n):
     # Construct the fully-qualified table ID
     table_ref = client.dataset(dataset_id, project=project_id).table(table_id)
 
+    # Get the table, the table schema, and the schema fields
+    table = client.get_table(table_ref)
+    schema = table.schema
+    schema_fields = [field.name for field in schema]
+
     # Construct the SQL query to get the first n rows
     query = f"SELECT * FROM `{table_ref}` LIMIT {n}"
 
@@ -31,8 +36,9 @@ def get_first_n_rows(client, project_id, dataset_id, table_id, n):
 
     # Convert the results to a list of rows
     rows = list(results)
+    df = pd.DataFrame(data=[list(row.values()) for row in rows], columns=schema_fields)
 
-    return rows
+    return df
 
 
 # Gets the data within the last n_days if the table has any entries within the last n_days, and a date_column to check.

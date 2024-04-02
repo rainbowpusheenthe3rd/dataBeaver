@@ -1,0 +1,36 @@
+name: Update ML Model
+
+on:
+  push:
+    branches:
+      - main  # Update this with your main branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker registry
+        uses: docker/login-action@v2
+        with:
+          registry: gcr.io  # Update this with your Docker registry
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t gcr.io/your-project/your-image:latest .
+          docker push gcr.io/your-project/your-image:latest
+
+      - name: SSH into GCP machine
+        uses: metaCastor/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USERNAME }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            docker pull gcr.io/your-project/your-image:latest
+            docker run -d gcr.io/your-project/your-image:latest
