@@ -1,6 +1,39 @@
 import datetime as dt
+import json
 import pandas as pd
+import yaml
+from google.cloud import bigquery
 
+
+# Assume a config-yaml file with valid GCP credentials.json filepath, used to get X rows of data.
+def getData(x):
+
+    # Get the credentials for the API calls
+    with open('config-yaml.yaml', 'r') as file:
+        configuration = yaml.safe_load(file)
+
+    # Get the path of the credentials and the project name for dynamically requesting a GCP BigQuery client
+    credentials_path = configuration['GCP']['credentials_file_loc']
+    gcp_project = configuration['GCP']['project_name']
+
+    # Load the credentials from the file path location specified in the yaml.
+    with open(credentials_path, 'r') as file:
+        credentials_info = json.load(file)
+
+    # Use the 'from_service_account_info' method to dynamically load credentials from a file
+    client = bigquery.Client.from_service_account_info(
+        credentials_info,
+        project=gcp_project
+    )
+
+    # Get the first x rows from the table.
+    df = get_first_n_rows(client,
+                          configuration['GCP']['project_name'],
+                          configuration['GCP']['dataset'],
+                          configuration['GCP']['table_name'],
+                          x)
+
+    return df
 
 
 # Fetches the first n rows from a bigquery table. Must receive a valid instantiated client
