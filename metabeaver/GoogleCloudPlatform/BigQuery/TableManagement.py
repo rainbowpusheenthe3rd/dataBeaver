@@ -9,6 +9,7 @@ from typing import List
 from google.cloud import bigquery
 
 
+# Given valid credentials, details for the table location, and a schema, this function will create a table in BigQuery.
 def create_bigquery_table(credentials, project_id, tableset, table_name, schema):
     """Creates a BigQuery table in the specified tableset with the given table name and schema.
 
@@ -90,6 +91,26 @@ def create_schema(items: List, field_names: List[str]) -> List[bigquery.SchemaFi
         schema.append(bigquery.SchemaField(name=field_name, field_type=bq_type))
 
     return schema
+
+
+# Takes a pandas dataframe and creates a BigQuery table in target location, with an automatically determined schema.
+def create_bigquery_table_from_dataframe(client: bigquery.Client,
+                                         dataset_id: str,
+                                         table_name: str,
+                                         dataframe: pd.DataFrame):
+    """
+    Create a BigQuery table from a Pandas DataFrame.
+
+    :param client: BigQuery client object.
+    :param dataset_id: ID of the dataset where the table will be created.
+    :param table_name: Name of the table to be created.
+    :param dataframe: Pandas DataFrame containing the data.
+    """
+    # Generate BigQuery schema from DataFrame columns
+    schema = create_schema(dataframe.values[0], dataframe.columns.tolist())
+
+    # Create BigQuery table
+    create_bigquery_table(client, client.project, dataset_id, table_name, schema)
 
 
 # Gets the most up to date data for a table where the target column has an entries within the last n_days
