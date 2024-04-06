@@ -5,33 +5,41 @@ import yaml
 from google.cloud import bigquery
 
 
-# Assume a config-yaml file with valid GCP credentials.json filepath, used to get X rows of data.
-def getData(x):
+def getData(x,
+            project_name=None, # GCP project to target. Defaults to config-yaml.yaml value if not over-ridden.
+            dataset=None, # GCP BigQuery dataset to target. Defaults to yaml value if not over-ridden.
+            table_name=None, # GCP BigQuery dataset-table to target. Defaults to yaml value if not over-ridden.
+            credentials_file_loc=None, # Valid credentials.json for GCP. Default to yaml value if not over-ridden.
+            ):
 
     # Get the credentials for the API calls
     with open('config-yaml.yaml', 'r') as file:
         configuration = yaml.safe_load(file)
 
     # Get the path of the credentials and the project name for dynamically requesting a GCP BigQuery client
-    credentials_path = configuration['GCP']['credentials_file_loc']
-    gcp_project = configuration['GCP']['project_name']
+    if credentials_file_loc is None:
+        credentials_file_loc = configuration['GCP'].get('credentials_file_loc')
+    if project_name is None:
+        project_name = configuration['GCP'].get('project_name')
 
-    # Load the credentials from the file path location specified in the yaml.
-    with open(credentials_path, 'r') as file:
+    # Check if dataset and table_name are provided and, if not, use values from configuration, our config-yaml file.
+    if dataset is None:
+        dataset = configuration['GCP']['dataset']
+    if table_name is None:
+        table_name = configuration['GCP']['table_name']
+
+    # Load the credentials from the file path location specified in the yaml, or by user.
+    with open(credentials_file_loc, 'r') as file:
         credentials_info = json.load(file)
 
     # Use the 'from_service_account_info' method to dynamically load credentials from a file
     client = bigquery.Client.from_service_account_info(
         credentials_info,
-        project=gcp_project
+        project=project_name
     )
 
     # Get the first x rows from the table.
-    df = get_first_n_rows(client,
-                          configuration['GCP']['project_name'],
-                          configuration['GCP']['dataset'],
-                          configuration['GCP']['table_name'],
-                          x)
+    df = get_first_n_rows(client, project_name, dataset, table_name, x)
 
     return df
 

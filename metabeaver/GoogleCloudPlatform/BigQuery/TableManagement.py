@@ -3,40 +3,40 @@
 import datetime as dt
 import pandas as pd
 import numpy as np
-
-
+import yaml
 from typing import List
+from google.auth.credentials import Credentials
 from google.cloud import bigquery
+from google.oauth2 import service_account
 
 
-# Given valid credentials, details for the table location, and a schema, this function will create a table in BigQuery.
-def create_bigquery_table(credentials, project_id, tableset, table_name, schema):
+# Given valid client, details for the table location, and a schema, this function will create a table in BigQuery.
+def create_bigquery_table(client, tableset, table_name, schema):
     """Creates a BigQuery table in the specified tableset with the given table name and schema.
 
     Args:
-        credentials (google.auth.credentials.Credentials): The credentials to use to authenticate with BigQuery.
-        project_id (str): The project ID for the BigQuery table.
-        tableset (str): The tableset to create the table in.
+        client (google.cloud.bigquery.client.Client): The BigQuery client to use for creating the table.
+        tableset (str): The dataset ID where the table will be created.
         table_name (str): The name for the new BigQuery table.
         schema (list[google.cloud.bigquery.SchemaField]): The schema for the new BigQuery table.
 
     Returns:
         google.cloud.bigquery.table.Table: The newly created BigQuery table.
     """
-    # Create the BigQuery client
-    client = bigquery.Client(project=project_id, credentials=credentials)
+    try:
+        # Get a reference to the table
+        table_ref = client.dataset(tableset).table(table_name)
 
-    # Get a reference to the table
-    table_ref = client.dataset(tableset).table(table_name)
+        # Create the table object
+        table = bigquery.Table(table_ref, schema=schema)
 
-    # Create the table object
-    table = bigquery.Table(table_ref, schema=schema)
+        # Create the table in BigQuery
+        table = client.create_table(table)
 
-    # Create the table in BigQuery
-    table = client.create_table(table)
-
-    # Return the new table object
-    return table
+        # Return the new table object
+        return table
+    except Exception as e:
+        print(f"Error creating table '{table_name}' in dataset '{tableset}': {e}")
 
 
 # Maps Python primitive types and numpy/panda types to BigQuery equivalents
@@ -63,6 +63,8 @@ def create_schema(items: List, field_names: List[str]) -> List[bigquery.SchemaFi
         pd.Timestamp: 'TIMESTAMP',
         pd.DateOffset: 'DATE',
         pd.Timedelta: 'TIME',
+        pd.Interval: 'STRING',  # Can't directly map to BigQuery type, so using STRING as a placeholder
+        pd.CategoricalDtype: 'STRING',  # Can't directly map to BigQuery type, so using STRING as a placeholder
         np.float16: 'FLOAT',
         np.float32: 'FLOAT',
         np.float64: 'FLOAT',
@@ -111,6 +113,34 @@ def create_bigquery_table_from_dataframe(client: bigquery.Client,
 
     # Create BigQuery table
     create_bigquery_table(client, client.project, dataset_id, table_name, schema)
+
+
+def create_bq_table_from_df_with_credentials(credentials: Credentials,
+                                         dataset_id: str,
+                                         table_name: str,
+                                         dataframe: pd.DataFrame):
+    """
+    Create a BigQuery table from a Pandas DataFrame.
+
+    :param credentials: Google Cloud credentials object.
+    :param dataset_id: ID of the dataset where the table will be created.
+    :param table_name: Name of the table to be created.
+    :param dataframe: Pandas DataFrame containing the data.
+    """
+    #
+    try:
+        # Create BigQuery client with provided credentials
+        client = bigquery.Client(credentials=credentials)
+
+        # Generate BigQuery schema from DataFrame columns
+        schema = create_schema(dataframe.iloc[0], dataframe.columns.tolist())
+
+        # Create BigQuery table
+        create_bigquery_table(client, dataset_id, table_name, schema)
+        print(f"Table '{table_name}' created successfully in dataset '{dataset_id}'.")
+    #
+    except Exception as e:
+        print(f"Error creating table: {e}")
 
 
 # Gets the most up to date data for a table where the target column has an entries within the last n_days
