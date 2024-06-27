@@ -3,11 +3,9 @@
 import datetime as dt
 import pandas as pd
 import numpy as np
-import yaml
 from typing import List
 from google.auth.credentials import Credentials
 from google.cloud import bigquery
-from google.oauth2 import service_account
 
 
 # Given valid client, details for the table location, and a schema, this function will create a table in BigQuery.

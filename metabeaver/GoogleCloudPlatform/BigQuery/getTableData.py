@@ -10,11 +10,17 @@ def getData(x,
             dataset=None, # GCP BigQuery dataset to target. Defaults to yaml value if not over-ridden.
             table_name=None, # GCP BigQuery dataset-table to target. Defaults to yaml value if not over-ridden.
             credentials_file_loc=None, # Valid credentials.json for GCP. Default to yaml value if not over-ridden.
+            configuration=None
             ):
 
-    # Get the credentials for the API calls
-    with open('config-yaml.yaml', 'r') as file:
-        configuration = yaml.safe_load(file)
+    if configuration == None:
+        try:
+            # Get the credentials for the API calls
+            with open('config-yaml.yaml', 'r') as file:
+                configuration = yaml.safe_load(file)
+        except Exception as e:
+            print(str(e))
+            configuration == None
 
     # Get the path of the credentials and the project name for dynamically requesting a GCP BigQuery client
     if credentials_file_loc is None:

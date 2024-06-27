@@ -34,7 +34,7 @@ print('Check both colours of our kleptomanic beaver, one after the other...')
 if "red" in coloursOfHarry: # Check for "red"
     print("Roses are red, and Harry is too...")
 if "blue" in coloursOfHarry: # Check for "blue"
-    print("He got shot and is feeling quite blue!")
+    print("Harry got shot and is feeling quite blue!")
 else: # Does not print because at least one of the above conditions, find red, was true.
     print("Harry's adventure's were but a dream: Harry's at home, snoring, and rather clean")
 

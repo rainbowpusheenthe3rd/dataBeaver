@@ -5,9 +5,6 @@ from google.oauth2 import service_account
 
 import yaml
 
-from typing import List
-import pandas as pd
-
 
 # Return a credentials via supplying a service_account.Credentials with valid credential.json loc GCP API calls
 def get_credentials_from_yaml(yaml_file_path, cloud_platform, service_json_filepath):
