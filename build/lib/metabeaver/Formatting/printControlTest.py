@@ -27,6 +27,7 @@ def someFunction(argOne, argTwo):
 
     cprint('Roses are red, Violets are blue, Beaver teeth are orange and they chew through wood too!')
 
+
 # Set the environment variable to str 'True' and print
 os.environ["BEAVER_PRINTING"] = 'True'
 someFunction('', '')

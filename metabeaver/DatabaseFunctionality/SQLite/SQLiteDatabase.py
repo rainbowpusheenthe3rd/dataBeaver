@@ -462,7 +462,7 @@ If we have the possibility of multiple applications writing concurrently to the 
 SQLite works best when it is embedded within an application.
 For situations where we'd have concurrency, or we want to unify analytics, we should consider alternatives.
 
-One approach might be to, by default, creating a cloud DB endpoint for analytics and logging data.
+One approach might be to, by default, creating a cloud DB endpoint for analytics and logCollector data.
     If there are multiple applications writing, then at least the concurrency can be handled and the data is unified.
     This should prevent and writing issues and also make it possible to perform better analytics.
 

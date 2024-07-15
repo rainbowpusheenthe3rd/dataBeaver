@@ -94,7 +94,14 @@ def get_first_n_rows(client, project_id, dataset_id, table_id, n):
 
 
 # Gets the data within the last n_days if the table has any entries within the last n_days, and a date_column to check.
-def get_recent_rows(client, dataset_name, table_name, target_column, date_column, n_days=30, end_date=None):
+def get_recent_rows(client,
+                    dataset_name,
+                    table_name,
+                    target_column,
+                    date_column,
+                    n_days=30,
+                    end_date=None
+                    ):
 
     try:
         # Get current time in UTC
