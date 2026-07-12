@@ -17,7 +17,7 @@ except ImportError:
     if exit_code != 0:
         # Log the error to an error.log file
         with open('error.log', 'a') as log_file:
-            log_file.write(f"Failed to install pkg_resources\n")
+            log_file.write("Failed to install pkg_resources\n")
         print("Failed to install pkg_resources.")
         print("Please check the error.log file for more information.")
         exit(1)

@@ -17,7 +17,7 @@ rawSQL = {
         #
         'UPDATE' : ['',
                     ],
-    }
+    },
 
     # Create or delete existing tables.
     'tableCreation' : {
@@ -30,7 +30,7 @@ rawSQL = {
                     beaverWeight INT
                     )
                     """
-                    ]
+                    ],
 
         'DELETE' : '',
     }

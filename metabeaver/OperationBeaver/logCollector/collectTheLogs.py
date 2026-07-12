@@ -1,5 +1,7 @@
-import docker
 import os
+
+import docker
+
 
 # Search all images on the Host system for images matching a pattern and copies all files matching pattern 2.
 def copy_logs_from_containers(image_name_pattern,
@@ -85,7 +87,7 @@ def copy_logs_from_containers(image_name_pattern,
             print(f'Got file content for {file}')
             print(f'Destination file path is like {destination_file_path}')
             print(f'Wrote file, {file}, to destination.')
-        except:
+        except Exception as e:
             print('Could not print full debug')
             print(str(e))
 

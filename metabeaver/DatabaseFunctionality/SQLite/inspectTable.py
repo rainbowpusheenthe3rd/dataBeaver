@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 
+
 def getRowsAndSummary(cursor, table_name, n):
     """
     Fetch the first n rows from an SQLite table, print column names, column types, and calculate total memory.

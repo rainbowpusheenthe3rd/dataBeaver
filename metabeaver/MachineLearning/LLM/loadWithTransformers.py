@@ -1,6 +1,6 @@
 ### Imports ###
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 ### End of Imports ###
 

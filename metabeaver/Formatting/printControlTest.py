@@ -1,7 +1,6 @@
-from metabeaver.Formatting.printControl import conditional_print as cprint
-
-
 import os
+
+from metabeaver.Formatting.printControl import conditional_print as cprint
 
 
 # Usage example:

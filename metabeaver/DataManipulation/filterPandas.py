@@ -1,5 +1,6 @@
-import numpy as np
 import time
+
+import numpy as np
 
 
 # Filters a dataframe down to rows where, in a given column, column-row cell values start with the string

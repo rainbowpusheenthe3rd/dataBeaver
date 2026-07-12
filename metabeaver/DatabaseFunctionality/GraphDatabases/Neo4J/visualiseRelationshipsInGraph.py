@@ -1,6 +1,6 @@
-from neo4j import GraphDatabase
-import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
+from neo4j import GraphDatabase
 
 # Connect to Neo4j
 uri = "bolt://127.0.0.1:7474"

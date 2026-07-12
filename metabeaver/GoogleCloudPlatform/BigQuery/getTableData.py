@@ -1,5 +1,6 @@
 import datetime as dt
 import json
+
 import pandas as pd
 import yaml
 from google.cloud import bigquery

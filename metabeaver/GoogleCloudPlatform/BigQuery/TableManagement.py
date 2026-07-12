@@ -1,9 +1,10 @@
 # Rename the get crawled pages as it can be much more generic
 
 import datetime as dt
-import pandas as pd
-import numpy as np
 from typing import List
+
+import numpy as np
+import pandas as pd
 from google.auth.credentials import Credentials
 from google.cloud import bigquery
 

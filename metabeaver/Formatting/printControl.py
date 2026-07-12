@@ -7,7 +7,7 @@ def conditional_print(message):
     try:
         beaverPrint = os.environ.get("BEAVER_PRINTING")
     # If we can not find the BEAVER_PRINTING variable, assume printing is not wanted
-    except Exception as e:
+    except Exception:
         beaverPrint = False
 
     # Print if we enabled BEAVER_PRINTING by setting it to True

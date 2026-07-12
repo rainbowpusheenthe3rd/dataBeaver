@@ -1,7 +1,8 @@
-import logging
-from logging.handlers import RotatingFileHandler
-import os
 import inspect
+import logging
+import os
+from logging.handlers import RotatingFileHandler
+
 
 class Logger:
 

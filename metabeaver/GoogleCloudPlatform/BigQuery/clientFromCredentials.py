@@ -1,9 +1,8 @@
 import json
 
+import yaml
 from google.cloud import bigquery
 from google.oauth2 import service_account
-
-import yaml
 
 
 # Return a credentials via supplying a service_account.Credentials with valid credential.json loc GCP API calls

@@ -1,5 +1,6 @@
 from metabeaver.DataStructures.BinarySearchTree import BinarySearchTree
 
+
 # Binary search
 def binarySearch(array, target):
     """
