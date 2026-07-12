@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "metabeaver"
+version = "0.4.0"
+description = "Beaverish about data — a Python glue library and computer-science reference (data structures, algorithms, interview answers, cloud data-engineering, and quality-of-life utilities) written to be genuinely fun to read."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Luke Anthony Pollen", email = "luke@pollenanalytics.com" }]
+keywords = ["algorithms", "data-structures", "interview", "bigquery", "learning", "utilities"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Education",
+]
+dependencies = ["numpy", "pandas"]
+
+[project.optional-dependencies]
+gcp = ["google-cloud-core", "google-cloud-bigquery", "pyyaml"]
+graph = ["neo4j"]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.urls]
+Homepage = "https://github.com/rainbowpusheenthe3rd/dataBeaver"
+
+[tool.setuptools.packages.find]
+include = ["metabeaver*"]
+exclude = ["build*", "tests*", "metabeaver.Testing*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+# Start pragmatic on a large legacy surface: catch real errors (pyflakes) and
+# keep imports tidy. Tighten toward E/UP/B module-by-module over time.
+select = ["F", "I"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
